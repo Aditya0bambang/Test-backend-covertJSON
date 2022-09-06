@@ -34,22 +34,17 @@ if (!path) {
       } else {
         path = input[outputDir + 1];
       }
-    } else {
-      if (path.includes(".txt")) {
-        path = path.replace(".txt", ".json");
-      } else if (path.includes(".json")) {
-        path = path.replace(".json", ".txt");
-      }
     }
     if (convert != -1) {
       if (!input[convert + 1]) {
         console.log("Please input format for output!");
       } else {
         if (input[convert + 1] === "json") {
-          readFile = JSON.parse(readFile);
+          path = path.replace(".log", ".json");
+          readFile = JSON.stringify(readFile);
           fs.writeFileSync(path, readFile);
         } else if (input[convert + 1] === "text") {
-          readFile = JSON.stringify(readFile, null, 2);
+          path = path.replace(".log", ".txt");
           fs.writeFileSync(path, readFile);
         }
       }
@@ -57,7 +52,6 @@ if (!path) {
   }
 } else {
   let readFile = fs.readFileSync(path, "utf-8");
-  readFile = JSON.stringify(readFile, null, 2);
-  path = path.replace(".json", ".txt");
+  path = path.replace(".log", ".txt");
   fs.writeFileSync(path, readFile);
 }
